@@ -1,0 +1,35 @@
+﻿@model IEnumerable<TheResearcher.Models.tblPaper>
+
+@{
+    ViewBag.Title = "Search";
+}
+<!-- Masthead -->
+@*<div class="container row">*@
+<div class="container" style="display:flex">
+    @foreach (var item in Model)
+    {
+        <div class="col-4">
+            @*@Html.DisplayFor(modelItem => item.Date)
+                  <br />
+
+                  <b> @Html.DisplayFor(modelItem => item.Title)</b>
+                  <br />
+                  @Html.DisplayFor(modelItem => item.Abstract)
+                  <br />
+
+                <p>  Author: @Html.DisplayFor(modelItem => item.tblUser.Name)</p>
+
+                  @Html.ActionLink("Details", "Details", new { id = item.PaperID })*@
+            <div class="card">
+                <img src="~/img/pdficon.png " alt="Avatar" width="100" height="120">
+                <div class="container">
+                    <a href="@Url.Action("Details","Home",new { id = item.PaperID })"><h4><b>@Html.DisplayFor(modelItem => item.Title)</b></h4></a>
+                    <p>Author: @Html.DisplayFor(modelItem => item.tblUser.Name)</p>
+                    <p>Release Date:</p>@Html.DisplayFor(modelItem => item.Date)
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+

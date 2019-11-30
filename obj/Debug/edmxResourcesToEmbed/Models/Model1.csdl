@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TheResearcherDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tblForum">
+    <Key>
+      <PropertyRef Name="FormID" />
+    </Key>
+    <Property Name="FormID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="Comment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PaperID" Type="Int32" />
+    <NavigationProperty Name="tblPaper" Relationship="Self.FK_tblForum_tblPaper" FromRole="tblForum" ToRole="tblPaper" />
+    <NavigationProperty Name="tblUser" Relationship="Self.FK_tblForum_tblUser" FromRole="tblForum" ToRole="tblUser" />
+  </EntityType>
+  <EntityType Name="tblPaper">
+    <Key>
+      <PropertyRef Name="PaperID" />
+    </Key>
+    <Property Name="PaperID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Abstract" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <Property Name="Pdf" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="Int32" />
+    <NavigationProperty Name="tblForums" Relationship="Self.FK_tblForum_tblPaper" FromRole="tblPaper" ToRole="tblForum" />
+    <NavigationProperty Name="tblUser" Relationship="Self.FK_tblPaper_tblUser" FromRole="tblPaper" ToRole="tblUser" />
+  </EntityType>
+  <EntityType Name="tblUser">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tblForums" Relationship="Self.FK_tblForum_tblUser" FromRole="tblUser" ToRole="tblForum" />
+    <NavigationProperty Name="tblPapers" Relationship="Self.FK_tblPaper_tblUser" FromRole="tblUser" ToRole="tblPaper" />
+  </EntityType>
+  <Association Name="FK_tblForum_tblPaper">
+    <End Role="tblPaper" Type="Self.tblPaper" Multiplicity="0..1" />
+    <End Role="tblForum" Type="Self.tblForum" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPaper">
+        <PropertyRef Name="PaperID" />
+      </Principal>
+      <Dependent Role="tblForum">
+        <PropertyRef Name="PaperID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblForum_tblUser">
+    <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
+    <End Role="tblForum" Type="Self.tblForum" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUser">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tblForum">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblPaper_tblUser">
+    <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
+    <End Role="tblPaper" Type="Self.tblPaper" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUser">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tblPaper">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TheResearcherDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="tblForums" EntityType="Self.tblForum" />
+    <EntitySet Name="tblPapers" EntityType="Self.tblPaper" />
+    <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+    <AssociationSet Name="FK_tblForum_tblPaper" Association="Self.FK_tblForum_tblPaper">
+      <End Role="tblPaper" EntitySet="tblPapers" />
+      <End Role="tblForum" EntitySet="tblForums" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblForum_tblUser" Association="Self.FK_tblForum_tblUser">
+      <End Role="tblUser" EntitySet="tblUsers" />
+      <End Role="tblForum" EntitySet="tblForums" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblPaper_tblUser" Association="Self.FK_tblPaper_tblUser">
+      <End Role="tblUser" EntitySet="tblUsers" />
+      <End Role="tblPaper" EntitySet="tblPapers" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

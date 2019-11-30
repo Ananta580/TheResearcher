@@ -1,0 +1,25 @@
+﻿@model IEnumerable<TheResearcher.Models.tblForum>
+
+
+    <div>
+        @foreach (var item in Model)
+        {
+            <div>
+                @Html.HiddenFor(modelItem => item.FormID)
+                @Html.HiddenFor(modelItem => item.UserID)
+
+            </div>
+            <div>
+               <b> @Html.DisplayFor(modelItem => item.tblUser.Username):</b>
+            
+                @Html.DisplayFor(modelItem => item.Comment)
+               </div>
+
+                @*<td>
+                    @Html.HiddenFor(modelItem => item.PaperID)
+                </td>*@
+
+
+            }
+    </div>
+

@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TheResearcherDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="tblForum">
+    <Key>
+      <PropertyRef Name="FormID" />
+    </Key>
+    <Property Name="FormID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="Comment" Type="nvarchar" MaxLength="50" />
+    <Property Name="PaperID" Type="int" />
+  </EntityType>
+  <EntityType Name="tblPaper">
+    <Key>
+      <PropertyRef Name="PaperID" />
+    </Key>
+    <Property Name="PaperID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" />
+    <Property Name="Abstract" Type="nvarchar" MaxLength="500" />
+    <Property Name="Date" Type="date" />
+    <Property Name="Pdf" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserID" Type="int" />
+  </EntityType>
+  <EntityType Name="tblUser">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+    <Property Name="Username" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_tblForum_tblPaper">
+    <End Role="tblPaper" Type="Self.tblPaper" Multiplicity="0..1" />
+    <End Role="tblForum" Type="Self.tblForum" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPaper">
+        <PropertyRef Name="PaperID" />
+      </Principal>
+      <Dependent Role="tblForum">
+        <PropertyRef Name="PaperID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblForum_tblUser">
+    <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
+    <End Role="tblForum" Type="Self.tblForum" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUser">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tblForum">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblPaper_tblUser">
+    <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
+    <End Role="tblPaper" Type="Self.tblPaper" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUser">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="tblPaper">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TheResearcherDBModelStoreContainer">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblForum" EntityType="Self.tblForum" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblPaper" EntityType="Self.tblPaper" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_tblForum_tblPaper" Association="Self.FK_tblForum_tblPaper">
+      <End Role="tblPaper" EntitySet="tblPaper" />
+      <End Role="tblForum" EntitySet="tblForum" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblForum_tblUser" Association="Self.FK_tblForum_tblUser">
+      <End Role="tblUser" EntitySet="tblUser" />
+      <End Role="tblForum" EntitySet="tblForum" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblPaper_tblUser" Association="Self.FK_tblPaper_tblUser">
+      <End Role="tblUser" EntitySet="tblUser" />
+      <End Role="tblPaper" EntitySet="tblPaper" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

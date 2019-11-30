@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="~/vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="~/css/Gallery.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="~/css/landing-page.min.css" rel="stylesheet">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    
+</head>
+<body>
+    @*<div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("The Researcher", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+
+                        @if (Request.IsAuthenticated)
+                        {
+                            <li>@Html.ActionLink("AddPaper", "Index", "Paper")</li>
+                            <li>@Html.ActionLink("LogOut", "LogOut", "Account")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Login", "Login", "Account")</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>*@
+    <nav class="navbar navbar-light bg-light static-top">
+        <div class="container">
+            @Html.ActionLink("The Researcher", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @if (Request.IsAuthenticated)
+            {
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                        @User.Identity.Name
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("AddPaper", "Index", "Paper")</li>
+                        <li>@Html.ActionLink("LogOut", "LogOut", "Account")</li>
+                    </ul>
+                </div>
+            }
+            else
+            {
+                @Html.ActionLink("Login", "Login", "Account", null, new { @class = "btn btn-primary" })
+            }
+            @*<a class="btn btn-primary" href="#">Sign In</a>*@
+        </div>
+    </nav>
+    <div >@RenderBody()</div>
+
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
